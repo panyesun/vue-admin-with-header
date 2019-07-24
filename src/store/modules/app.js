@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie'
 import { getLanguage } from '@/locales'
-import { getCurrentModule } from '@/router/modules'
+import { getCurrentModule, resetCurrentModule } from '@/router/modules'
+import { resetEnv } from '@/utils/auth'
 
 const state = {
   sidebar: {
@@ -55,6 +56,13 @@ const actions = {
   },
   switchModule({ commit }, moduleName) {
     commit('SWITCH_MODULE', moduleName)
+  },
+  logout({ commit }) {
+    return new Promise(resolve => {
+      commit('SWITCH_MODULE', resetCurrentModule())
+      resetEnv()
+      resolve()
+    })
   }
 }
 

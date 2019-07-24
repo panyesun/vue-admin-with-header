@@ -3,7 +3,7 @@
     <span class="icon">
       <svg-icon icon-class="example" />
     </span>
-    <span class="label">tagNametagNametagNametagName</span>
+    <span class="label">{{tagName}}</span>
     <span
       class="close"
       @click="handleClose"
@@ -14,9 +14,12 @@
 </template>
 <script>
 export default {
+  props: {
+    tagName: String
+  },
   methods: {
     handleClose() {
-      this.$emit('onClose')
+      this.$emit('close-tag')
     }
   }
 }

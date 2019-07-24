@@ -19,14 +19,16 @@
         v-for="(item,index) in globalModules"
         :class="{active: currentModule == item.moduleName}"
         :key="index"
+        @click="jumpTo(item)"
       >
         <div class="icon-container">
           <svg-icon icon-class="example" />
         </div>
         <span class="module-name">
-          <router-link :to="item.path">{{item.moduleName}}</router-link>
+          {{item.moduleName}}
         </span>
       </div>
+
       <easy-dropdown class="v-item">
         <div
           class="item"
@@ -55,7 +57,12 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch('user/logout')
+      await this.$store.dispatch('app/logout')
       this.$router.push(`/login`)
+    },
+    jumpTo({ moduleName, path }) {
+      this.$store.dispatch('app/switchModule', moduleName)
+      this.$router.push(path)
     }
   },
   data() {
@@ -84,7 +91,7 @@ export default {
 }
 
 .list {
-  width: 220px;
+  width: 520px;
   .item {
     cursor: pointer;
     float: left;

@@ -8,8 +8,10 @@
       ref="kwds"
     >
       <xy-tag
-        v-for="(item,index) in tags"
+        v-for="(item,index) in computedTags"
         :key="index"
+        :tag-name="item.name"
+        @close-tag="handleCloseTag(index)"
       ></xy-tag>
       <input
         type="text"
@@ -33,6 +35,9 @@ export default {
   methods: {
     resizeHeight() {
       return this.$refs.kwds.getBoundingClientRect().height + 'px'
+    },
+    handleCloseTag(index) {
+      this.$emit('close-tag', index)
     }
   },
   watch: {
@@ -40,6 +45,11 @@ export default {
       this.$nextTick(() => {
         this.height = this.resizeHeight()
       })
+    }
+  },
+  computed: {
+    'computedTags'() {
+      return this.tags.filter(item => item.isSelect === true)
     }
   },
   mounted() {

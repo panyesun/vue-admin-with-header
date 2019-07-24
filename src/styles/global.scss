@@ -85,3 +85,10 @@
 .pl10 {
   padding-left: 10px;
 }
+
+// reset
+.scroll {
+  .el-scrollbar__wrap {
+    overflow-x: hidden !important;
+  }
+}
