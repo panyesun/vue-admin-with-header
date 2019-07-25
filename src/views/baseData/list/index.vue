@@ -17,6 +17,7 @@
       <a
         class="btn add"
         href="javascript:;"
+        @click="jumpTo('/baseData/data/add')"
       >
         <i class="el-icon-circle-plus-outline" />
         <span class="txt">新增</span>
@@ -25,6 +26,7 @@
       <a
         class="btn edit"
         href="javascript:;"
+        @click="jumpTo('/baseData/data/add',1)"
       >
         <i class="el-icon-zoom-in" />
         <span class="txt">编辑</span>
@@ -74,12 +76,21 @@
 
       </el-table>
     </div>
+
+    <!-- 分页统计 -->
+    <table-footer
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    >
+      <div slot="desc">我是一个slot</div>
+    </table-footer>
   </div>
 </template>
 <script>
 import FilterSearchbar from '@/components/FilterSearchbar'
+import TableFooter from '@/components/TableFooter'
 export default {
-  components: { FilterSearchbar },
+  components: { FilterSearchbar, TableFooter },
   data() {
     return {
       personalFilter: [],
@@ -119,7 +130,8 @@ export default {
       // then search
     },
     generateTags() {
-      const tags = [], filters = this.personalFilter
+      const tags = []
+      const filters = this.personalFilter
       // filter to tags
       for (var key in filters) {
         var name = filters[key]['value']
@@ -133,6 +145,19 @@ export default {
     handleCloseTag(index) {
       this.personalFilter.splice(index, 1)
       this.tags = this.generateTags()
+    },
+    handleSizeChange(size) {
+      console.log(`当前每页${size}条`)
+    },
+    handleCurrentChange(currentPage) {
+      console.log(`当前第${currentPage}页`)
+    },
+    jumpTo(url, id) {
+      // 此处写权限判断,默认允许进入
+      this.$router.push({
+        path: url,
+        query: { id }
+      })
     }
   }
 }
